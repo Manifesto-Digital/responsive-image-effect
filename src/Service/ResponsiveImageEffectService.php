@@ -41,7 +41,7 @@ class ResponsiveImageEffectService {
 
     $derivative_uri = $this->buildUri($source_file_uri, $image_style->id(), $width, $height, $crop);
 
-    $derivative_url = file_create_url($derivative_uri);
+    $derivative_url = \Drupal::service('file_url_generator')->generateAbsoluteString($derivative_uri);
 
     // @todo security goes here.
     // Append the query string with the token, if necessary.

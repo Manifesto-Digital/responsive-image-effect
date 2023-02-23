@@ -3,7 +3,7 @@
 namespace Drupal\responsive_image_effect\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 
@@ -18,9 +18,9 @@ class RouteNormalizerRequestSubscriber implements EventSubscriberInterface {
   /**
    * Prevent the Redirect module from redirecting image style URLs to their normalised path.
    *
-   * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    */
-  public function onKernelRequestRedirect(GetResponseEvent $event) {
+  public function onKernelRequestRedirect(RequestEvent $event) {
     $request = $event->getRequest();
     $route_name = $request->get(RouteObjectInterface::ROUTE_NAME);
 
