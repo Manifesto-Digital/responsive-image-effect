@@ -2,9 +2,8 @@
 
 namespace Drupal\responsive_image_effect\Commands;
 
-use Drupal\file\Entity\File;
-use Drupal\media\Entity\Media;
 use Drush\Commands\DrushCommands;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\responsive_image_effect\Service\ResponsiveImageEffectService;
 
 /**
@@ -17,15 +16,39 @@ use Drupal\responsive_image_effect\Service\ResponsiveImageEffectService;
 class ResponsiveImageEffectCommands extends DrushCommands {
 
   /**
+   * Responsive Image Effect service.
+   *
+   * @var \Drupal\responsive_image_effect\Service\ResponsiveImageEffectService
+   */
+  protected $responsiveImageEffectService;
+
+  /**
+   * EntityTypeManager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(ResponsiveImageEffectService $responsiveImageEffectService, EntityTypeManagerInterface $entityTypeManager) {
+    $this->responsiveImageEffectService = $responsiveImageEffectService;
+    $this->entityTypeManager = $entityTypeManager;
+
+    parent::__construct();
+  }
+
+  /**
    * Generate an image responsive url for fun.
    *
    * @param int $media_id
    *   Argument provided to the drush command.
    * @param int $width
-   *   The width to make the responsive image
+   *   The width to make the responsive image.
    * @param int $height
-   *   (optional) The width to make the responsive image
-   * @param arr $options
+   *   (optional) The width to make the responsive image.
+   * @param array $options
    *   (optional) Options array.
    *
    * @command rie:genRespImg
@@ -38,17 +61,17 @@ class ResponsiveImageEffectCommands extends DrushCommands {
    * @usage rie:genRespImg media_id width --crop
    *   Displays a URL for the image
    */
-  public function generateImageUrl($media_id, $width, $height = 0, $options = ['crop' => 1, 'style' => 'responsive']) {
-    /** @var \Drupal\responsive_image_effect\Service\ResponsiveImageEffectService $responsiveImageEffectService */
-    $responsiveImageEffectService = \Drupal::getContainer()->get('responsive_image_effect.responsive_image_service');
-
+  public function generateImageUrl($media_id, $width, $height = 0, array $options = [
+    'crop' => 1,
+    'style' => 'responsive',
+  ]) {
     $width = (int) $width;
     $height = (int) $height;
     $image_style_name = $options['style'];
 
-    $media = Media::load($media_id);
+    $media = $this->entityTypeManager->getStorage('media')->load($media_id);
     $fid = $media->getSource()->getSourceFieldValue($media);
-    $file = File::load($fid);
+    $file = $this->entityTypeManager->getStorage('file')->load($fid);
     $uri = $file->getFileUri();
 
     $params = ['w' => $width];
@@ -59,10 +82,10 @@ class ResponsiveImageEffectCommands extends DrushCommands {
     }
     elseif (!empty($options['crop'])) {
       $ratio = (double) $options['crop'];
-      $params = $responsiveImageEffectService->crop($width, $ratio);
+      $params = $this->responsiveImageEffectService->crop($width, $ratio);
     }
 
-    $src = $responsiveImageEffectService->responsiveImageUrl($uri, $params, $image_style_name);
+    $src = $this->responsiveImageEffectService->responsiveImageUrl($uri, $params, $image_style_name);
     $this->output()->writeln($src);
   }
 

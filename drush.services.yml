@@ -1,5 +1,6 @@
 services:
   responsive_image_effect.commands:
     class: \Drupal\responsive_image_effect\Commands\ResponsiveImageEffectCommands
+    arguments: ['@responsive_image_effect.responsive_image_service', '@entity_type.manager']
     tags:
       - { name: drush.command }

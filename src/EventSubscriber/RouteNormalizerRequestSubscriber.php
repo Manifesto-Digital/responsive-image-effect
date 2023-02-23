@@ -9,6 +9,10 @@ use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 
 class RouteNormalizerRequestSubscriber implements EventSubscriberInterface {
 
+  /**
+   * Event subscriber subscribing to KernelEvents::REQUEST
+   * onKernelRequestRedirect.
+   */
   public static function getSubscribedEvents() {
     return [
       KernelEvents::REQUEST => ['onKernelRequestRedirect'],
@@ -16,9 +20,11 @@ class RouteNormalizerRequestSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Prevent the Redirect module from redirecting image style URLs to their normalised path.
+   * Prevent the Redirect module from redirecting image style URLs
+   * to their normalised path.
    *
    * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+   *   The event to process.
    */
   public function onKernelRequestRedirect(RequestEvent $event) {
     $request = $event->getRequest();

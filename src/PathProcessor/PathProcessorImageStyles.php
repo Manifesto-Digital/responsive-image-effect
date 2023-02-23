@@ -70,15 +70,15 @@ class PathProcessorImageStyles implements InboundPathProcessorInterface {
 
     // First decide if we are dealing with a classic image style or one of our
     // responsive image styles.
-    list($image_style, $scheme, $filepath) = explode('/', $rest, 3);
+    [$image_style, $scheme, $filepath] = explode('/', $rest, 3);
 
-    if (!$this->_imageStyleHasResponsiveEffect($image_style)) {
+    if (!$this->imageStyleHasResponsiveEffect($image_style)) {
       // This is a classic image style.
       $request->query->set('file', $filepath);
       return $path_prefix . $image_style . '/' . $scheme;
     }
 
-    list($width, $height, $crop, $file) = explode('/', $filepath, 4);
+    [$width, $height, $crop, $file] = explode('/', $filepath, 4);
 
     // Set the file as query parameter.
     $request->query->set('file', $file);
@@ -86,15 +86,16 @@ class PathProcessorImageStyles implements InboundPathProcessorInterface {
     return $path_prefix . $image_style . '/' . $scheme . '/' . $width . '/' . $height . '/' . $crop;
   }
 
-
   /**
    * Check if an image style includes a responsive image effect.
    *
-   * @param $image_style
+   * @param string $image_style
+   *   Image style name.
    *
    * @return bool
+   *   Return true/false if the responsive image effect is set.
    */
-  protected function _imageStyleHasResponsiveEffect($image_style) {
+  protected function imageStyleHasResponsiveEffect($image_style) {
     $image_style = ImageStyle::load($image_style);
     foreach ($image_style->getEffects() as $effect) {
       if ($effect instanceof ResponsiveImageEffect) {

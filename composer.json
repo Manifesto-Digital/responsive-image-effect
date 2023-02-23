@@ -1,6 +1,6 @@
 {
   "name": "teamdeeson/responsive_image_effect",
-  "description": "A Drupal 8 module to provide programatic responsive images via URL parameters.",
+  "description": "A Drupal module to provide programmatic responsive images via URL parameters.",
   "type": "drupal-module",
   "keywords": ["Drupal", "responsive_image_effect"],
   "license": "MIT",
@@ -13,6 +13,9 @@
     },
     {
       "name": "Ben Dudiak-Fry"
+    },
+    {
+      "name": "Lee Mills"
     }
   ],
   "autoload": {

@@ -45,7 +45,8 @@ class ResponsiveImageStyle extends ImageStyle {
       $source_scheme = $scheme = $default_scheme;
     }
 
-    // Recurse over width, height and crop directories deleting $relative path if it exists.
+    // Recurse over width, height and crop directories deleting $relative path
+    // if it exists.
     try {
       $base_style_path = "$scheme://styles/{$this->id()}/$source_scheme/";
       $directory = new \RecursiveDirectoryIterator($base_style_path);
