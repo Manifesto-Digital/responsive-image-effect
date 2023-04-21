@@ -1,7 +1,7 @@
 name: Responsive image effect
 description: Replaces Drupal image style url generator with a scale and crop image effect that can be specified via URL arguments.
 package: Media
-core_version_requirement: ^9.3 || ^10
+core_version_requirement: ^9.5 || ^10
 
 type: module
 
