@@ -2,10 +2,10 @@
 
 namespace Drupal\responsive_image_effect\EventSubscriber;
 
+use Drupal\Core\Routing\RouteObjectInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 
 class RouteNormalizerRequestSubscriber implements EventSubscriberInterface {
 
