@@ -7,7 +7,6 @@ use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
 use Drupal\image\Entity\ImageStyle;
-use Drupal\responsive_image_effect\Plugin\ImageEffect\ResponsiveImageEffect;
 use Drupal\responsive_image_effect\Service\ResponsiveImageEffectService;
 use Drupal\system\FileDownloadController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -88,10 +87,10 @@ class ResponsiveImageEffectDownloadController extends FileDownloadController {
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request object.
-   * @param \Drupal\image\ImageStyleInterface $image_style
-   *   The image style to deliver.
    * @param string $scheme
    *   The file scheme, defaults to 'private'.
+   * @param string $image_style
+   *   The name of the image style to deliver.
    * @param string $width
    *   The width to resize the image to.
    * @param string $height
@@ -131,12 +130,14 @@ class ResponsiveImageEffectDownloadController extends FileDownloadController {
     // Make sure one of the image styles effects is a responsive image effect.
     $valid &= $this->responsiveImageEffectService->imageStyleHasResponsiveEffect($image_style);
 
-    // @todo - security goes here.
+    // @todo security goes here.
+    // phpcs:disable
     /*
     if (!$this->config('image.settings')->get('allow_insecure_derivatives') || strpos(ltrim($target, '\/'), 'styles/') === 0) {
       $valid &= hash_equals($image_style->getPathToken($image_uri), $request->query->get(IMAGE_DERIVATIVE_TOKEN, ''));
     }
     */
+    // phpcs:enable
 
     if (!$valid) {
       // Return a 404 (Page Not Found) rather than a 403 (Access Denied) as the
@@ -167,7 +168,10 @@ class ResponsiveImageEffectDownloadController extends FileDownloadController {
       $path_info = pathinfo($image_uri);
       $converted_image_uri = $path_info['dirname'] . DIRECTORY_SEPARATOR . $path_info['filename'];
       if (!file_exists($converted_image_uri)) {
-        $this->logger->notice('Source image at %source_image_path not found while trying to generate derivative image at %derivative_path.', ['%source_image_path' => $image_uri, '%derivative_path' => $derivative_uri]);
+        $this->logger->notice('Source image at %source_image_path not found while trying to generate derivative image at %derivative_path.', [
+          '%source_image_path' => $image_uri,
+          '%derivative_path' => $derivative_uri,
+        ]);
         return new Response($this->t('Error generating image, missing source file.'), 404);
       }
       else {
@@ -184,7 +188,7 @@ class ResponsiveImageEffectDownloadController extends FileDownloadController {
       if (!$lock_acquired) {
         // Tell client to retry again in 3 seconds. Currently no browsers are
         // known to support Retry-After.
-        throw new ServiceUnavailableHttpException(3, $this->t('Image generation in progress. Try again shortly.'));
+        throw new ServiceUnavailableHttpException(3, 'Image generation in progress. Try again shortly.');
       }
     }
 
@@ -214,4 +218,5 @@ class ResponsiveImageEffectDownloadController extends FileDownloadController {
       return new Response($this->t('Error generating image.'), 500);
     }
   }
+
 }

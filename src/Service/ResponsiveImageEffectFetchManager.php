@@ -32,9 +32,10 @@ class ResponsiveImageEffectFetchManager extends FetchManager {
 
       /** @var \Drupal\responsive_image_effect\Service\ResponsiveImageEffectService $responsive_image_effect_service */
       $responsive_image_effect_service = \Drupal::service('responsive_image_effect.responsive_image_service');
- 
+
       if ($responsive_image_effect_service->imageStyleHasResponsiveEffect($image_style)) {
-        // Then the path is like styles/[style_name]/[schema]/[w]/[h]/[crop]/[original_path].
+        // Then the path is like;
+        // styles/[style_name]/[schema]/[w]/[h]/[crop]/[original_path].
         return preg_replace('/styles\/.*\/(.*)\/.*\/.*\/.*\/(.*)/U', '$1://$2', $path);
       }
     }

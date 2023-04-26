@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * An image effect that uses the URL to decide how to shape an image style.
- */
-
 namespace Drupal\responsive_image_effect\Plugin\ImageEffect;
 
 use Drupal\Component\Utility\Image;
@@ -131,8 +126,8 @@ class ResponsiveImageEffect extends FocalPointScaleAndCropImageEffect {
    */
   public function defaultConfiguration() {
     return parent::defaultConfiguration() + [
-        'crop' => NULL,
-      ];
+      'crop' => NULL,
+    ];
   }
 
 }
