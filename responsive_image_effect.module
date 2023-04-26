@@ -5,11 +5,12 @@
  * Hook implementations.
  */
 
-
 /**
  * @param EntityTypeInterface[] $entity_types
+ *   An associative array of all entity type definitions,
+ *   keyed by the entity type name. Passed by reference.
  */
-function responsive_image_effect_entity_type_build(&$entity_types) {
+function responsive_image_effect_entity_type_build(array &$entity_types) {
   if (isset($entity_types['image_style'])) {
     $entity_types['image_style']->setClass('Drupal\responsive_image_effect\Entity\ResponsiveImageStyle');
   }
