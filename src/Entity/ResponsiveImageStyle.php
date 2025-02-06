@@ -71,7 +71,8 @@ class ResponsiveImageStyle extends ImageStyle {
       }
     }
     catch (\Exception $e) {
-      watchdog_exception('responsive_image_effect', $e, 'problem finding responsive image derivatives');
+      $logger = \Drupal::logger('responsive_image_effect');
+      \Drupal\Core\Utility\Error::logException($logger, $e);
     }
 
     return $this;
