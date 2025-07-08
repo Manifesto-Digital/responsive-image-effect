@@ -29,5 +29,8 @@
         "drush.services.yml": "^9"
       }
     }
+  },
+  "require": {
+    "drupal/focal_point": "^2.1"
   }
 }
