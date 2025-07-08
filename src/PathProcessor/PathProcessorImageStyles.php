@@ -96,10 +96,11 @@ class PathProcessorImageStyles implements InboundPathProcessorInterface {
    *   Return true/false if the responsive image effect is set.
    */
   protected function imageStyleHasResponsiveEffect($image_style) {
-    $image_style = ImageStyle::load($image_style);
-    foreach ($image_style->getEffects() as $effect) {
-      if ($effect instanceof ResponsiveImageEffect) {
-        return TRUE;
+    if ($image_style = ImageStyle::load($image_style)) {
+      foreach ($image_style->getEffects() as $effect) {
+        if ($effect instanceof ResponsiveImageEffect) {
+          return TRUE;
+        }
       }
     }
     return FALSE;
