@@ -25,11 +25,11 @@ Add the following to the `repositories` section of your site's `composer.json` f
 ```javascript
     {
       "type": "vcs",
-      "url": "https://github.com/teamdeeson/responsive_image_effect.git"
+      "url": "https://github.com/Manifesto-Digital/responsive-image-effect.git"
     }
 ```
 
-You can then run `composer require teamdeeson/responsive_image_effect` to download the module and `drush @docker en responsive_image_effect` to enable the module.
+You can then run `composer require Manifesto-Digital/responsive-image-effect` to download the module and `drush @docker en responsive-image-effect` to enable the module.
 
 Your site will need at least one Drupal image style which includes the responsive image effect.
 
@@ -38,7 +38,7 @@ Your site will need at least one Drupal image style which includes the responsiv
 To generate the URLs, a Utility service is available:
 
 ```php
-    $responsiveImageEffectService = \Drupal::getContainer()->get('responsive_image_effect.responsive_image_service');
+    $responsiveImageEffectService = \Drupal::getContainer()->get('responsive-image-effect.responsive_image_service');
     $fileUri = 'public://test.png';
     
     // Create a resized image preserving original aspect ratio with a width of 100px.
