@@ -1,8 +1,8 @@
 {
-  "name": "teamdeeson/responsive_image_effect",
+  "name": "manifesto-digital/responsive-image-effect",
   "description": "A Drupal module to provide programmatic responsive images via URL parameters.",
   "type": "drupal-module",
-  "keywords": ["Drupal", "responsive_image_effect"],
+  "keywords": ["Drupal", "responsive-image-effect"],
   "license": "MIT",
   "authors": [
     {
